@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FcHighPriority, FcLowPriority, FcMediumPriority } from "react-icons/fc";
 
 const TaskForm = ({ onAdd }) => {
 	const [title, setTitle] = useState("");
@@ -13,14 +14,14 @@ const TaskForm = ({ onAdd }) => {
 				title,
 				priority,
 				deadline,
-        status: "todo"
+				status: "todo",
 			});
 		}
 
-    //reset
-    setTitle("")
-    setPriority("medium")
-    setDeadline("")
+		//reset
+		setTitle("");
+		setPriority("medium");
+		setDeadline("");
 	};
 
 	return (
@@ -50,9 +51,9 @@ const TaskForm = ({ onAdd }) => {
 					onChange={(e) => setPriority(e.target.value)}
 					className="w-full border border-slate-200 px-3 py-2 rounded-lg outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm bg-white cursor-pointer"
 				>
-					<option value="high">🔴 High</option>
-					<option value="medium">🟡 Medium</option>
-					<option value="low">🔵 Low</option>
+					<option value="high">High</option>
+					<option value="medium"> Medium</option>
+					<option value="low"> Low</option>
 				</select>
 			</div>
 

@@ -4,89 +4,96 @@ import TaskCard from "../components/tasks/TaskCard";
 import TaskFilters from "../components/tasks/TaskFilters";
 
 const TaskPage = () => {
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [priorityFilter, setPriorityFilter] = useState("all");
+	const [statusFilter, setStatusFilter] = useState("all");
+	const [priorityFilter, setPriorityFilter] = useState("all");
 
-  const [listTasks, setListTasks] = useState(() => {
-    const savedTasks = localStorage.getItem("mini-app-tasks");
-    return savedTasks ? JSON.parse(savedTasks) : [];
-  });
+	const loadTasks = () => {
+		const savedTasks = localStorage.getItem("mini-app-tasks");
+		return savedTasks ? JSON.parse(savedTasks) : [];
+	};
+	const [listTasks, setListTasks] = useState(loadTasks);
 
-  // Tự động lưu localStorage
-  useEffect(() => {
-    localStorage.setItem("mini-app-tasks", JSON.stringify(listTasks));
-  }, [listTasks]);
+	// Tự động lưu localStorage
+	useEffect(() => {
+		localStorage.setItem("mini-app-tasks", JSON.stringify(listTasks));
+	}, [listTasks]);
 
-  // Lọc task dựa vào: Status & Priority
-  const filteredTasks = listTasks.filter((task) => {
-    const matchStatus = statusFilter === "all" || task.status === statusFilter;
-    const matchPriority = priorityFilter === "all" || task.priority === priorityFilter;
-    return matchStatus && matchPriority;
-  });
+	// Lọc task dựa vào: Status & Priority
+	const filteredTasks = listTasks.filter((task) => {
+		const matchStatus = statusFilter === "all" || task.status === statusFilter;
+		const matchPriority =	priorityFilter === "all" || task.priority === priorityFilter;
+		return matchStatus && matchPriority;
+	});
 
-  const handleAddTask = (newTaskData) => {
-    const newTask = {
-      id : Date.now(),
-      ...newTaskData,
-      createAt: Date.now(),
-    }
+	const handleAddTask = (newTaskData) => {
+		const newTask = {
+			id: Date.now(),
+			...newTaskData,
+			createAt: Date.now(),
+		};
 
-    setListTasks([newTask, ...listTasks])
-  }
+		setListTasks([newTask, ...listTasks]);
+	};
 
-  // Đổi trạng thái 
-  const handleStatusChange = (id, newStatus) => {
-    setListTasks(listTasks.map(item => item.id === id ? {...item, status: newStatus} : item))
-  }
+	// Đổi trạng thái
+	const handleStatusChange = (id, newStatus) => {
+		setListTasks(
+			listTasks.map((item) =>
+				item.id === id ? { ...item, status: newStatus } : item,
+			),
+		);
+	};
 
-  //Xoá
-  const handleDelete = (id) => {
-    setListTasks(listTasks.filter(item => item.id !== id))
-  }
+	//Xoá
+	const handleDelete = (id) => {
+		setListTasks(listTasks.filter((item) => item.id !== id));
+	};
 
-  return (
-    <div className="max-w-4xl mx-auto w-full">
-      <div className="mb-8">
-        <h2 className="text-xl font-bold text-slate-800 mb-4">Create Task</h2>
-        <TaskForm onAdd={handleAddTask} />
-      </div>
+	return (
+		<div className="max-w-4xl mx-auto w-full">
+			<div className="mb-8">
+				<h2 className="text-xl font-bold text-slate-800 mb-4">Create Task</h2>
+				<TaskForm onAdd={handleAddTask} />
+			</div>
 
-      <div>
-        <div className="flex justify-between items-end mb-4">
-          <h2 className="text-xl font-bold text-slate-800">Task List</h2>
-          <span className="text-sm font-medium text-slate-500 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-sm">
-            {filteredTasks.length} {filteredTasks.length === 1 ? 'task' : 'tasks'} found
-          </span>
-        </div>
-        
-        {/* Bộ lọc */}
-        <TaskFilters 
-          statusFilter={statusFilter}
-          setStatusFilter={setStatusFilter}
-          priorityFilter={priorityFilter}
-          setPriorityFilter={setPriorityFilter}
-        />
+			<div>
+				<div className="flex justify-between items-end mb-4">
+					<h2 className="text-xl font-bold text-slate-800">Task List</h2>
+					<span className="text-sm font-medium text-slate-500 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-sm">
+						{filteredTasks.length}{" "}
+						{filteredTasks.length === 1 ? "task" : "tasks"} found
+					</span>
+				</div>
 
-        {/* Danh sách Card */}
-        <div className="flex flex-col gap-3">
-          {filteredTasks.length === 0 ? (
-            <div className="text-slate-500 text-sm mt-4 text-center py-16 bg-white rounded-xl border border-dashed border-slate-300">
-              Không tìm thấy task nào. Hãy thay đổi bộ lọc hoặc thêm task mới nhé!
-            </div>
-          ) : (
-            filteredTasks.map((task) => (
-              <TaskCard
-                key={task.id}
-                task={task}
-                onStatusChange={(status) => handleStatusChange(task.id, status)}
-                onDelete={() => handleDelete(task.id)}
-              />
-            ))
-          )}
-        </div>
-      </div>
-    </div>
-  );
+				{/* Bộ lọc */}
+				<TaskFilters
+					statusFilter={statusFilter}
+					setStatusFilter={setStatusFilter}
+					priorityFilter={priorityFilter}
+					setPriorityFilter={setPriorityFilter}
+				/>
+
+				{/* Danh sách Card */}
+				<div className="flex flex-col gap-3">
+					{filteredTasks.length === 0 ? (
+						<div className="text-slate-500 text-sm mt-4 text-center py-16 bg-white rounded-xl border border-dashed border-slate-300">
+							Không tìm thấy task nào. Hãy thay đổi bộ lọc hoặc thêm task mới
+							nhé!
+						</div>
+					) : (
+						filteredTasks.map((task) => (
+							<TaskCard
+								key={task.id}
+								task={task}
+								onStatusChange={(status) => handleStatusChange(task.id, status)}
+								onDelete={() => handleDelete(task.id)}
+							/>
+						))
+					)}
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default TaskPage;

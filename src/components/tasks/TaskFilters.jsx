@@ -26,9 +26,9 @@ const TaskFilters = ({ statusFilter, setStatusFilter, priorityFilter, setPriorit
           className="border border-slate-200 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-indigo-500 bg-slate-50 cursor-pointer min-w-[120px]"
         >
           <option value="all">All Priorities</option>
-          <option value="high">🔴 High</option>
-          <option value="medium">🟡 Medium</option>
-          <option value="low">🔵 Low</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
         </select>
       </div>
     </div>
