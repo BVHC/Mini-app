@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { FcHighPriority, FcLowPriority, FcMediumPriority } from "react-icons/fc";
+import { useTaskContext } from "../../contexts/TaskContext";
 
-const TaskForm = ({ onAdd }) => {
+const TaskForm = () => {
+	const { dispatch } = useTaskContext();
 	const [title, setTitle] = useState("");
 	const [priority, setPriority] = useState("medium");
 	const [deadline, setDeadline] = useState("");
@@ -9,14 +11,15 @@ const TaskForm = ({ onAdd }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		if (onAdd) {
-			onAdd({
-				title,
-				priority,
-				deadline,
-				status: "todo",
-			});
-		}
+		const newTask = {
+			id: Date.now(),
+			title,
+			priority,
+			deadline,
+			status: "todo",
+			createAt: Date.now(),
+		};
+		dispatch({ type: "ADD", payload: newTask });
 
 		//reset
 		setTitle("");
