@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import ListStock from "../components/admin/ListStock";
 import FilterBar from "../components/admin/FilterBar";
-import { useStockContext } from "../contexts/StockContext";
-import { useMemo } from "react";
+import { useStockContext } from "../hooks/useStockContext";
 
 const AdminPage = () => {
 	const { state } = useStockContext();

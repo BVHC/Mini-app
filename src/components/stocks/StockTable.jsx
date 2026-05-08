@@ -1,123 +1,123 @@
 import React from "react";
+import { Table } from 'antd';
 
 // Strict color rule handler
 const getColorClass = (price, r, c, f) => {
-	const p = parseFloat(price);
-	const ref = parseFloat(r);
-	const ceil = parseFloat(c);
-	const floor = parseFloat(f);
+  const p = parseFloat(price);
+  const ref = parseFloat(r);
+  const ceil = parseFloat(c);
+  const floor = parseFloat(f);
 
-	if (!price || price === "0") return "text-slate-700";
-	if (p >= ceil) return "text-[#e040fb]"; // Tím (Trần)
-	if (p <= floor) return "text-[#00e5ff]"; // Cyan (Sàn)
-	if (p > ref) return "text-[#00c853]"; // Xanh lá (Tăng)
-	if (p < ref) return "text-[#ff1744]"; // Đỏ (Giảm)
-	return "text-[#ffd600]"; // Vàng (Tham chiếu)
+  if (!price || price === "0") return "text-slate-700";
+  if (p >= ceil) return "text-[#e040fb]"; // Tím (Trần)
+  if (p <= floor) return "text-[#00e5ff]"; // Cyan (Sàn)
+  if (p > ref) return "text-[#00c853]"; // Xanh lá (Tăng)
+  if (p < ref) return "text-[#ff1744]"; // Đỏ (Giảm)
+  return "text-[#ffd600]"; // Vàng (Tham chiếu)
 };
 
-const StockTable = ({ data }) => {
-	return (
-		<div className="overflow-x-auto bg-white rounded-xl border border-slate-200 shadow-sm h-full">
-			<table className="w-full text-sm text-right whitespace-nowrap">
-				<thead className="sticky top-0 z-10 bg-slate-50 border-b border-slate-200 shadow-sm">
-					<tr className="text-slate-500 font-semibold text-[13px] uppercase tracking-wider">
-						<th className="px-4 py-3 text-left">MÃ(sym)</th>
-            <th className="px-4 py-3 text-left">Name</th>
-						<th className="px-3 py-3">TC(r)</th>
-						<th className="px-3 py-3 text-[#e040fb]">TRẦN(c)</th>
-						<th className="px-3 py-3 text-[#00e5ff]">SÀN(f) </th>
-						<th className="px-3 py-3">MỞ CỬA (openPrice)</th>
-						<th className="px-3 py-3">CAO(highPrice)</th>
-						<th className="px-3 py-3">THẤP(lowPrice)</th>
-						<th className="px-4 py-3 bg-slate-100 font-bold text-slate-700">
-							KHỚP(lastPrice)
-						</th>
-						<th className="px-3 py-3">+/-(ot)</th>
-						<th className="px-3 py-3">%(changePc)</th>
-						<th className="px-4 py-3">KL KHỚP(lastVolume)</th>
-						<th className="px-3 py-3">NN MUA(fBVol)</th>
-						<th className="px-3 py-3">NN BÁN(fSVolume)</th>
-					</tr>
-				</thead>
-				<tbody className="divide-y divide-slate-100">
-					{!data || data.length === 0 ? (
-						<tr>
-							<td
-								colSpan="13"
-								className="px-4 py-16 text-center text-slate-500 font-medium"
-							>
-								Đang tải dữ liệu bảng giá...
-							</td>
-						</tr>
-					) : (
-						data.map((stock) => {
-							const mainColor = getColorClass(
-								stock.lastPrice,
-								stock.r,
-								stock.c,
-								stock.f,
-							);
-							return (
-								<tr
-									key={stock.sym}
-									className="hover:bg-slate-50 transition-colors"
-								>
-									<td
-										className={`px-4 py-3 text-left font-medium ${mainColor}`}
-									>
-										{stock.sym}
-									</td>
-                  <td
-										className={`px-4 py-3 text-left font-medium ${mainColor}`}
-									>
-										{stock.name_vn}
-									</td>
-									<td className="px-3 py-3 text-[#ffd600]">{stock.r}</td>
-									<td className="px-3 py-3 text-[#e040fb]">{stock.c}</td>
-									<td className="px-3 py-3 text-[#00e5ff]">{stock.f}</td>
-									<td
-										className={`px-3 py-3 ${getColorClass(stock.openPrice, stock.r, stock.c, stock.f)}`}
-									>
-										{stock.openPrice}
-									</td>
-									<td
-										className={`px-3 py-3 ${getColorClass(stock.highPrice, stock.r, stock.c, stock.f)}`}
-									>
-										{stock.highPrice}
-									</td>
-									<td
-										className={`px-3 py-3 ${getColorClass(stock.lowPrice, stock.r, stock.c, stock.f)}`}
-									>
-										{stock.lowPrice}
-									</td>
-									<td
-										className={`px-4 py-3 font-bold ${mainColor}`}
-									>
-										{stock.lastPrice}
-									</td>
-									<td className={`px-3 py-3 ${mainColor}`}>
-										{stock.ot}
-									</td>
-									<td className={`px-3 py-3 ${mainColor}`}>
-										{stock.changePc}
-									</td>
-									<td className="px-4 py-3 text-slate-900">
-										{stock.lastVolume}
-									</td>
-									<td className="px-3 py-3 text-slate-900">
-										{stock.fBVol}
-									</td>
-									<td className="px-3 py-3 text-slate-900">
-										{stock.fSVolume}
-									</td>
-								</tr>
-							);
-						})
-					)}
-				</tbody>
-			</table>
-		</div>
-	);
+const StockTable = ({ data, pagination }) => {
+
+  const columns = [
+    {
+      title: 'MÃ(sym)',
+      dataIndex: 'sym',
+      key: 'sym',
+      render: (text, record) => <span className={`font-medium ${getColorClass(record.lastPrice, record.r, record.c, record.f)}`}>{text}</span>,
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name_vn',
+      key: 'name_vn',
+      render: (text, record) => <span className={`font-medium ${getColorClass(record.lastPrice, record.r, record.c, record.f)}`}>{text}</span>,
+    },
+    {
+      title: 'TC(r)',
+      dataIndex: 'r',
+      key: 'r',
+      render: (text) => <span className="text-[#ffd600]">{text}</span>,
+    },
+    {
+      title: <span className="text-[#e040fb]">TRẦN(c)</span>,
+      dataIndex: 'c',
+      key: 'c',
+      render: (text) => <span className="text-[#e040fb]">{text}</span>,
+    },
+    {
+      title: <span className="text-[#00e5ff]">SÀN(f)</span>,
+      dataIndex: 'f',
+      key: 'f',
+      render: (text) => <span className="text-[#00e5ff]">{text}</span>,
+    },
+    {
+      title: 'MỞ CỬA',
+      dataIndex: 'openPrice',
+      key: 'openPrice',
+      render: (text, record) => <span className={getColorClass(text, record.r, record.c, record.f)}>{text}</span>,
+    },
+    {
+      title: 'CAO',
+      dataIndex: 'highPrice',
+      key: 'highPrice',
+      render: (text, record) => <span className={getColorClass(text, record.r, record.c, record.f)}>{text}</span>,
+    },
+    {
+      title: 'THẤP',
+      dataIndex: 'lowPrice',
+      key: 'lowPrice',
+      render: (text, record) => <span className={getColorClass(text, record.r, record.c, record.f)}>{text}</span>,
+    },
+    {
+      title: <span className="bg-slate-100 font-bold text-slate-700 block px-2 py-1 -mx-2 -my-1 rounded">KHỚP</span>,
+      dataIndex: 'lastPrice',
+      key: 'lastPrice',
+      render: (text, record) => <span className={`font-bold ${getColorClass(text, record.r, record.c, record.f)}`}>{text}</span>,
+    },
+    {
+      title: '+/-',
+      dataIndex: 'ot',
+      key: 'ot',
+      render: (text, record) => <span className={getColorClass(record.lastPrice, record.r, record.c, record.f)}>{text}</span>,
+    },
+    {
+      title: '%',
+      dataIndex: 'changePc',
+      key: 'changePc',
+      render: (text, record) => <span className={getColorClass(record.lastPrice, record.r, record.c, record.f)}>{text}</span>,
+    },
+    {
+      title: 'KL KHỚP',
+      dataIndex: 'lastVolume',
+      key: 'lastVolume',
+      render: (text) => <span className="text-slate-900">{text}</span>,
+    },
+    {
+      title: 'NN MUA',
+      dataIndex: 'fBVol',
+      key: 'fBVol',
+      render: (text) => <span className="text-slate-900">{text}</span>,
+    },
+    {
+      title: 'NN BÁN',
+      dataIndex: 'fSVolume',
+      key: 'fSVolume',
+      render: (text) => <span className="text-slate-900">{text}</span>,
+    },
+  ];
+
+  return (
+    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <Table 
+        columns={columns} 
+        dataSource={data} 
+        rowKey="sym"
+        pagination={pagination}
+        scroll={{ x: 'max-content', y: 'calc(100vh - 250px)' }}
+        size="middle"
+        className="[&_.ant-table-thead>tr>th]:bg-slate-50 [&_.ant-table-thead>tr>th]:text-slate-500 [&_.ant-table-thead>tr>th]:font-semibold [&_.ant-table-thead>tr>th]:text-[13px] [&_.ant-table-thead>tr>th]:uppercase [&_.ant-table-thead>tr>th]:tracking-wider [&_.ant-table-cell]:whitespace-nowrap"
+      />
+    </div>
+  );
 };
 
 export default StockTable;

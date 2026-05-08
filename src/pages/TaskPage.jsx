@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TaskForm from "../components/tasks/TaskForm";
 import TaskCard from "../components/tasks/TaskCard";
 import TaskFilters from "../components/tasks/TaskFilters";
-import { useTaskContext } from "../contexts/TaskContext";
+import { useTaskContext } from "../hooks/useTaskContext";
 
 const TaskPage = () => {
   const { state, dispatch } = useTaskContext();

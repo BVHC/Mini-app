@@ -4,8 +4,6 @@ export const initialTaskState = {
 }
 export const taskReducer = (state, action) => {
   switch (action.type){
-    case 'LOAD':
-      return {...state, tasks: action.payload}
     case 'ADD':
       return {...state, tasks: [action.payload, ...state.tasks]}
     case 'UPDATE':

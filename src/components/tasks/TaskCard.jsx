@@ -1,6 +1,6 @@
 import React from "react";
 import { FiTrash2, FiClock, FiCheckCircle, FiCircle, FiPlayCircle } from "react-icons/fi";
-import { useTaskContext } from "../../contexts/TaskContext";
+import { useTaskContext } from "../../hooks/useTaskContext";
 
 const PRIORITY_COLORS = {
   high: "bg-red-50 text-red-600 border-red-200",

@@ -1,20 +1,20 @@
-import { createContext, useEffect, useReducer, useContext } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { taskReducer, initialTaskState } from "./taskReducer";
 
-const TaskContext = createContext();
+export const TaskContext = createContext();
 
 const STORAGE_KEY = "mini-app-tasks";
 
+const initState = () => {
+  const savedTasks = localStorage.getItem(STORAGE_KEY);
+  if (savedTasks) {
+    return { tasks: JSON.parse(savedTasks) };
+  }
+  return initialTaskState;
+};
+
 export const TaskProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(taskReducer, initialTaskState);
-  
-  // Lấy dữ liệu từ localStorage 
-  useEffect(() => {
-    const savedTasks = localStorage.getItem(STORAGE_KEY);
-    if (savedTasks) {
-      dispatch({ type: "LOAD", payload: JSON.parse(savedTasks) });
-    }
-  }, []);
+  const [state, dispatch] = useReducer(taskReducer, initState());
   
   // Lưu vào localStorage khi tasks thay đổi
   useEffect(() => {
@@ -28,6 +28,3 @@ export const TaskProvider = ({ children }) => {
   );
 };
 
-export const useTaskContext = () => {
-  return useContext(TaskContext);
-};

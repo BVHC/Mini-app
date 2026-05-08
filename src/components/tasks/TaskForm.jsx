@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FcHighPriority, FcLowPriority, FcMediumPriority } from "react-icons/fc";
-import { useTaskContext } from "../../contexts/TaskContext";
+import { useTaskContext } from "../../hooks/useTaskContext";
 
 const TaskForm = () => {
 	const { dispatch } = useTaskContext();

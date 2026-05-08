@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useReducer, useEffect } from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 import { stockReducer, initState } from "./stockReducer";
 
-const StockContext = createContext();
+export const StockContext = createContext();
 
 export const StockProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(stockReducer, initState);
@@ -37,6 +37,6 @@ export const StockProvider = ({ children }) => {
 	);
 };
 
-export const useStockContext = () => {
-	return useContext(StockContext);
-};
+// export const useStockContext = () => {
+// 	return useContext(StockContext);
+// };
