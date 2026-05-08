@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import TaskForm from "../components/tasks/TaskForm";
 import TaskCard from "../components/tasks/TaskCard";
 import TaskFilters from "../components/tasks/TaskFilters";
+import { useTaskContext } from "../hooks/useTaskContext";
 
 const TaskPage = () => {
+  const { state, dispatch } = useTaskContext();
+  const listTasks = state.tasks;
+  
 	const [statusFilter, setStatusFilter] = useState("all");
 	const [priorityFilter, setPriorityFilter] = useState("all");
 
@@ -11,12 +15,12 @@ const TaskPage = () => {
 		const savedTasks = localStorage.getItem("mini-app-tasks");
 		return savedTasks ? JSON.parse(savedTasks) : [];
 	};
-	const [listTasks, setListTasks] = useState(loadTasks);
+	// const [listTasks, setListTasks] = useState(loadTasks);
 
 	// Tự động lưu localStorage
-	useEffect(() => {
-		localStorage.setItem("mini-app-tasks", JSON.stringify(listTasks));
-	}, [listTasks]);
+	// useEffect(() => {
+	// 	localStorage.setItem("mini-app-tasks", JSON.stringify(listTasks));
+	// }, [listTasks]);
 
 	// Lọc task dựa vào: Status & Priority
 	const filteredTasks = listTasks.filter((task) => {
@@ -25,35 +29,11 @@ const TaskPage = () => {
 		return matchStatus && matchPriority;
 	});
 
-	const handleAddTask = (newTaskData) => {
-		const newTask = {
-			id: Date.now(),
-			...newTaskData,
-			createAt: Date.now(),
-		};
-
-		setListTasks([newTask, ...listTasks]);
-	};
-
-	// Đổi trạng thái
-	const handleStatusChange = (id, newStatus) => {
-		setListTasks(
-			listTasks.map((item) =>
-				item.id === id ? { ...item, status: newStatus } : item,
-			),
-		);
-	};
-
-	//Xoá
-	const handleDelete = (id) => {
-		setListTasks(listTasks.filter((item) => item.id !== id));
-	};
-
 	return (
 		<div className="max-w-4xl mx-auto w-full">
 			<div className="mb-8">
 				<h2 className="text-xl font-bold text-slate-800 mb-4">Create Task</h2>
-				<TaskForm onAdd={handleAddTask} />
+				<TaskForm />
 			</div>
 
 			<div>
@@ -85,8 +65,6 @@ const TaskPage = () => {
 							<TaskCard
 								key={task.id}
 								task={task}
-								onStatusChange={(status) => handleStatusChange(task.id, status)}
-								onDelete={() => handleDelete(task.id)}
 							/>
 						))
 					)}
