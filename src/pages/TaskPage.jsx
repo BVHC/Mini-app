@@ -1,26 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import TaskForm from "../components/tasks/TaskForm";
 import TaskCard from "../components/tasks/TaskCard";
 import TaskFilters from "../components/tasks/TaskFilters";
 import { useTaskContext } from "../hooks/useTaskContext";
 
 const TaskPage = () => {
-  const { state, dispatch } = useTaskContext();
+  const { state} = useTaskContext();
   const listTasks = state.tasks;
   
 	const [statusFilter, setStatusFilter] = useState("all");
 	const [priorityFilter, setPriorityFilter] = useState("all");
-
-	const loadTasks = () => {
-		const savedTasks = localStorage.getItem("mini-app-tasks");
-		return savedTasks ? JSON.parse(savedTasks) : [];
-	};
-	// const [listTasks, setListTasks] = useState(loadTasks);
-
-	// Tự động lưu localStorage
-	// useEffect(() => {
-	// 	localStorage.setItem("mini-app-tasks", JSON.stringify(listTasks));
-	// }, [listTasks]);
 
 	// Lọc task dựa vào: Status & Priority
 	const filteredTasks = listTasks.filter((task) => {

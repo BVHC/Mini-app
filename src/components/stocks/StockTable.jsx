@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table } from 'antd';
 
 // Strict color rule handler
@@ -17,12 +17,20 @@ const getColorClass = (price, r, c, f) => {
 };
 
 const StockTable = ({ data, pagination }) => {
+  const [sortedInfo, setSortedInfo] = useState({});
+  const handleChange = ( sorter) => {
+    console.log('Various parameters', sorter);
+    setSortedInfo(sorter);
+  };
 
   const columns = [
     {
       title: 'MÃ(sym)',
       dataIndex: 'sym',
       key: 'sym',
+
+      sorter: (a, b) => a.sym.length - b.sym.length,
+      defaultSortOrder: 'descend',
       render: (text, record) => <span className={`font-medium ${getColorClass(record.lastPrice, record.r, record.c, record.f)}`}>{text}</span>,
     },
     {
@@ -35,61 +43,81 @@ const StockTable = ({ data, pagination }) => {
       title: 'TC(r)',
       dataIndex: 'r',
       key: 'r',
+      sorter: (a, b) => a.r - b.r,
+      defaultSortOrder: 'descend',
       render: (text) => <span className="text-[#ffd600]">{text}</span>,
     },
     {
       title: <span className="text-[#e040fb]">TRẦN(c)</span>,
       dataIndex: 'c',
       key: 'c',
+      sorter: (a, b) => a.c - b.c,
+      defaultSortOrder: 'descend',
       render: (text) => <span className="text-[#e040fb]">{text}</span>,
     },
     {
       title: <span className="text-[#00e5ff]">SÀN(f)</span>,
       dataIndex: 'f',
       key: 'f',
+      sorter: (a, b) => a.f - b.f,
+      defaultSortOrder: 'descend',
       render: (text) => <span className="text-[#00e5ff]">{text}</span>,
     },
     {
       title: 'MỞ CỬA',
       dataIndex: 'openPrice',
       key: 'openPrice',
+      sorter: (a, b) => a.openPrice - b.openPrice,
+      defaultSortOrder: 'descend',
       render: (text, record) => <span className={getColorClass(text, record.r, record.c, record.f)}>{text}</span>,
     },
     {
       title: 'CAO',
       dataIndex: 'highPrice',
       key: 'highPrice',
+      sorter: (a, b) => a.highPrice - b.highPrice,
+      defaultSortOrder: 'descend',
       render: (text, record) => <span className={getColorClass(text, record.r, record.c, record.f)}>{text}</span>,
     },
     {
       title: 'THẤP',
       dataIndex: 'lowPrice',
       key: 'lowPrice',
+      sorter: (a, b) => a.lowPrice - b.lowPrice,
+      defaultSortOrder: 'descend',
       render: (text, record) => <span className={getColorClass(text, record.r, record.c, record.f)}>{text}</span>,
     },
     {
       title: <span className="bg-slate-100 font-bold text-slate-700 block px-2 py-1 -mx-2 -my-1 rounded">KHỚP</span>,
       dataIndex: 'lastPrice',
       key: 'lastPrice',
+      sorter: (a, b) => a.lastPrice - b.lastPrice,
+      defaultSortOrder: 'descend',
       render: (text, record) => <span className={`font-bold ${getColorClass(text, record.r, record.c, record.f)}`}>{text}</span>,
+    },
+    {
+      title: 'KL KHỚP',
+      dataIndex: 'lastVolume',
+      key: 'lastVolume',
+      sorter: (a, b) => a.lastVolume - b.lastVolume,
+      defaultSortOrder: 'descend',
+      render: (text) => <span className="text-slate-900">{text}</span>,
     },
     {
       title: '+/-',
       dataIndex: 'ot',
       key: 'ot',
+      sorter: (a, b) => a.ot - b.ot,
+      defaultSortOrder: 'descend',
       render: (text, record) => <span className={getColorClass(record.lastPrice, record.r, record.c, record.f)}>{text}</span>,
     },
     {
       title: '%',
       dataIndex: 'changePc',
       key: 'changePc',
+      sorter: (a, b) => a.changePc - b.changePc,
+      defaultSortOrder: 'descend',
       render: (text, record) => <span className={getColorClass(record.lastPrice, record.r, record.c, record.f)}>{text}</span>,
-    },
-    {
-      title: 'KL KHỚP',
-      dataIndex: 'lastVolume',
-      key: 'lastVolume',
-      render: (text) => <span className="text-slate-900">{text}</span>,
     },
     {
       title: 'NN MUA',

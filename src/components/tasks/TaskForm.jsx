@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { FcHighPriority, FcLowPriority, FcMediumPriority } from "react-icons/fc";
+import {
+	FcHighPriority,
+	FcLowPriority,
+	FcMediumPriority,
+} from "react-icons/fc";
 import { useTaskContext } from "../../hooks/useTaskContext";
 
 const TaskForm = () => {
@@ -7,9 +11,12 @@ const TaskForm = () => {
 	const [title, setTitle] = useState("");
 	const [priority, setPriority] = useState("medium");
 	const [deadline, setDeadline] = useState("");
+	const [errors, setErrors] = useState({});
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
+		if (!validate()) return;
 
 		const newTask = {
 			id: Date.now(),
@@ -27,6 +34,23 @@ const TaskForm = () => {
 		setDeadline("");
 	};
 
+	const validate = () => {
+		const err = {};
+		if (!title.trim()) {
+			err.title = "Vui lòng nhập tên task!";
+		}
+
+		if (deadline) {
+			const today = new Date().toISOString().split("T")[0]; // "2026-05-10"
+			if (deadline < today) {
+				err.deadline = "Deadline không được là ngày trong quá khứ!";
+			}
+		}
+		setErrors(err);
+		// Trả về true nếu không có lỗi
+		return Object.keys(err).length === 0;
+	};
+
 	return (
 		<form
 			onSubmit={handleSubmit}
@@ -41,8 +65,17 @@ const TaskForm = () => {
 					type="text"
 					placeholder="What needs to be done?"
 					value={title}
-					onChange={(e) => setTitle(e.target.value)}
+					onChange={(e) => {
+						setTitle(e.target.value);
+						// Xóa lỗi khi user bắt đầu sửa
+						if (errors.title) {
+							setErrors((prev) => ({ ...prev, title: undefined }));
+						}
+					}}
 				/>
+				{errors.title && (
+					<p className="text-red-500 text-xs mt-1">{errors.title}</p>
+				)}
 			</div>
 
 			<div className="w-[140px]">
@@ -70,6 +103,9 @@ const TaskForm = () => {
 					onChange={(e) => setDeadline(e.target.value)}
 					className="w-full border border-slate-200 px-3 py-2 rounded-lg outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all text-sm cursor-pointer"
 				/>
+				{errors.deadline && (
+					<p className="text-red-500 text-xs mt-1">{errors.deadline}</p>
+				)}
 			</div>
 
 			{/* Nút Submit */}
