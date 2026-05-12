@@ -3,6 +3,7 @@ import { Input, Select, Button } from "antd";
 import { FiSearch } from "react-icons/fi";
 import { LuFilter, LuFilterX } from "react-icons/lu";
 import { SearchOutlined } from "@ant-design/icons";
+import { useStockContext } from "../../hooks/useStockContext";
 
 const FilterBar = ({
 	searchText,
@@ -13,11 +14,36 @@ const FilterBar = ({
 	setFilterSector,
 }) => {
 	const [text, setText] = useState("");
+	const { state } = useStockContext();
+	const { allStocks } = state;
+
+	const sectorOptions = [
+		{ value: "ALL", label: "Ngành: All" },
+		...[
+			...new Set(
+				allStocks.map((s) => s.sector_vn).filter(Boolean), // bỏ null, undefined, ""
+			),
+		].map((sector) => ({
+			value: sector,
+			label:  sector,
+		})),
+	];
+
+	const typeOptions = [
+		{ value: "ALL", label: "Loại: All" },
+		...Array.from(new Set(allStocks.map((item) => item.stock_type))).map(
+			(type) => ({
+				value: type,
+				label: type,
+			}),
+		),
+	];
 
 	const handleReset = () => {
 		setFilterSector("ALL");
 		setFilterType("ALL");
 		setSearchText("");
+		setText("");
 	};
 
 	const handleSearch = () => {
@@ -43,12 +69,7 @@ const FilterBar = ({
 			<Select
 				defaultValue="ALL"
 				className="w-[140px]"
-				options={[
-					{ value: "ALL", label: "Loại: All" },
-					{ value: "S", label: "Loại: S" },
-					{ value: "E", label: "Loại: E" },
-					{ value: "W", label: "Loại: W" },
-				]}
+				options={typeOptions}
 				value={filterType}
 				onChange={(value) => {
 					setFilterType(value);
@@ -60,26 +81,7 @@ const FilterBar = ({
 			<Select
 				defaultValue="ALL"
 				className="min-w-[160px]"
-				options={[
-					{ value: "ALL", label: "Ngành: All" },
-					{ value: "Hóa chất", label: "Hóa chất" },
-					{ value: "Nước & Khí đốt", label: "Nước & Khí đốt" },
-					{ value: "Xây dựng và Vật liệu", label: "Xây dựng và Vật liệu" },
-					{ value: "Bất động sản", label: "Bất động sản" },
-					{ value: "Bán lẻ", label: "Bán lẻ" },
-					{ value: "Kim loại", label: "Kim loại" },
-					{ value: "Điện", label: "Điện" },
-					{ value: "Vận tải", label: "Vận tải" },
-					{ value: "Công nghiệp nặng", label: "Công nghiệp nặng" },
-					{
-						value: "Thiết bị và Dịch vụ Y tế",
-						label: "Thiết bị và Dịch vụ Y tế",
-					},
-					{ value: "Ngân hàng", label: "Ngân hàng" },
-					{ value: "Hàng công nghiệp", label: "Hàng công nghiệp" },
-					{ value: "Dược phẩm", label: "Dược phẩm" },
-					{ value: "Sản xuất thực phẩm", label: "Sản xuất thực phẩm" },
-				]}
+				options={sectorOptions}
 				value={filterSector}
 				onChange={(value) => {
 					setFilterSector(value);
