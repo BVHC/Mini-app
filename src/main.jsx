@@ -6,11 +6,11 @@ import { StockProvider } from "./contexts/StockContext.jsx";
 import { TaskProvider } from "./contexts/TaskContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<React.StrictMode>
+	// <React.StrictMode>
 		<TaskProvider>
 			<StockProvider>
 				<App />
 			</StockProvider>
 		</TaskProvider>
-	</React.StrictMode>,
+	// </React.StrictMode>,
 );

@@ -11,6 +11,7 @@ export const useFetchStocks = (symbols) => {
 
 	useEffect(() => {
 		if (!symbols || symbols.length === 0) {
+			setData([]);
 			return;
 		}
 
@@ -46,7 +47,6 @@ export const useFetchStocks = (symbols) => {
 
 			} catch (err) {
 				 if (err.name === "AbortError") {
-          console.log("Request đã bị hủy (user chuyển danh mục)");
           return;
         }
 			}
