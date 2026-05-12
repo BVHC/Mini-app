@@ -19,7 +19,7 @@ const StockPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const filteredSymbols = useMemo(() => {
-		return allStocks.filter((stock) => {
+    const listFilterStocks = allStocks.filter((stock) => { // Đây là Object chứa thông tin của 1 mã chứng khoán 
 			//search
 			const matchSearch =
 				searchText === "" ||
@@ -32,7 +32,9 @@ const StockPage = () => {
 				filterSector === "ALL" || stock.sector_vn === filterSector;
 
 			return matchSearch && matchType && matchSector;
-		}).map(s => s.stock_code);
+		});
+
+		return listFilterStocks.map((stock) => stock.stock_code); // Trả về 1 Array chứa các mã chứng khoán thỏa mãn điều kiện lọc
 
 	}, [allStocks, searchText, filterType, filterSector]);
 

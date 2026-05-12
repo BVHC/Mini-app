@@ -1,4 +1,3 @@
-
 import { Table } from "antd";
 
 // Strict color rule handler
@@ -16,15 +15,13 @@ const getColorClass = (price, r, c, f) => {
 	return "text-[#ffd600]"; // Vàng (Tham chiếu)
 };
 
-const StockTable = ({ data,onRowClick }) => {
+const StockTable = ({ data, onRowClick }) => {
 	const columns = [
 		{
 			title: "MÃ(sym)",
 			dataIndex: "sym",
 			key: "sym",
-
 			sorter: (a, b) => a.sym.length - b.sym.length,
-			defaultSortOrder: "descend",
 			render: (text, record) => (
 				<span
 					className={`font-medium cursor-pointer hover:underline ${getColorClass(record.lastPrice, record.r, record.c, record.f)}`}
@@ -39,7 +36,6 @@ const StockTable = ({ data,onRowClick }) => {
 			dataIndex: "r",
 			key: "r",
 			sorter: (a, b) => a.r - b.r,
-			defaultSortOrder: "descend",
 			render: (text) => <span className="text-[#ffd600]">{text}</span>,
 		},
 		{
@@ -47,7 +43,6 @@ const StockTable = ({ data,onRowClick }) => {
 			dataIndex: "c",
 			key: "c",
 			sorter: (a, b) => a.c - b.c,
-			defaultSortOrder: "descend",
 			render: (text) => <span className="text-[#e040fb]">{text}</span>,
 		},
 		{
@@ -55,7 +50,6 @@ const StockTable = ({ data,onRowClick }) => {
 			dataIndex: "f",
 			key: "f",
 			sorter: (a, b) => a.f - b.f,
-			defaultSortOrder: "descend",
 			render: (text) => <span className="text-[#00e5ff]">{text}</span>,
 		},
 		{
@@ -63,7 +57,6 @@ const StockTable = ({ data,onRowClick }) => {
 			dataIndex: "openPrice",
 			key: "openPrice",
 			sorter: (a, b) => a.openPrice - b.openPrice,
-			defaultSortOrder: "descend",
 			render: (text, record) => (
 				<span className={getColorClass(text, record.r, record.c, record.f)}>
 					{text}
@@ -75,7 +68,6 @@ const StockTable = ({ data,onRowClick }) => {
 			dataIndex: "highPrice",
 			key: "highPrice",
 			sorter: (a, b) => a.highPrice - b.highPrice,
-			defaultSortOrder: "descend",
 			render: (text, record) => (
 				<span className={getColorClass(text, record.r, record.c, record.f)}>
 					{text}
@@ -87,7 +79,6 @@ const StockTable = ({ data,onRowClick }) => {
 			dataIndex: "lowPrice",
 			key: "lowPrice",
 			sorter: (a, b) => a.lowPrice - b.lowPrice,
-			defaultSortOrder: "descend",
 			render: (text, record) => (
 				<span className={getColorClass(text, record.r, record.c, record.f)}>
 					{text}
@@ -103,7 +94,6 @@ const StockTable = ({ data,onRowClick }) => {
 			dataIndex: "lastPrice",
 			key: "lastPrice",
 			sorter: (a, b) => a.lastPrice - b.lastPrice,
-			defaultSortOrder: "descend",
 			render: (text, record) => (
 				<span
 					className={`font-bold ${getColorClass(text, record.r, record.c, record.f)}`}
@@ -117,7 +107,6 @@ const StockTable = ({ data,onRowClick }) => {
 			dataIndex: "lastVolume",
 			key: "lastVolume",
 			sorter: (a, b) => a.lastVolume - b.lastVolume,
-			defaultSortOrder: "descend",
 			render: (text) => <span className="text-slate-900">{text}</span>,
 		},
 		{
@@ -125,7 +114,6 @@ const StockTable = ({ data,onRowClick }) => {
 			dataIndex: "ot",
 			key: "ot",
 			sorter: (a, b) => a.ot - b.ot,
-			defaultSortOrder: "descend",
 			render: (text, record) => (
 				<span
 					className={getColorClass(
@@ -144,7 +132,6 @@ const StockTable = ({ data,onRowClick }) => {
 			dataIndex: "changePc",
 			key: "changePc",
 			sorter: (a, b) => a.changePc - b.changePc,
-			defaultSortOrder: "descend",
 			render: (text, record) => (
 				<span
 					className={getColorClass(
