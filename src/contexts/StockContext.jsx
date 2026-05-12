@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import React, { createContext, useReducer, useEffect, useMemo } from "react";
 import { stockReducer, initState } from "./stockReducer";
 
 export const StockContext = createContext();
@@ -10,7 +10,9 @@ export const StockProvider = ({ children }) => {
 		const fetchAllStocks = async () => {
 			dispatch({ type: "FETCH_START" });
 			try {
-				const res = await fetch("https://test-webtrading.upse.vn/getlistallstock");
+				const res = await fetch(
+					"https://test-webtrading.upse.vn/getlistallstock",
+				);
 				if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 				const result = await res.json();
 				dispatch({ type: "FETCH_SUCCESS", payload: result });
@@ -22,21 +24,18 @@ export const StockProvider = ({ children }) => {
 		fetchAllStocks();
 	}, []);
 
-	const contextValue = {
-		state: {
-			...state,
-			allStocks: state.data,
-		},
-		dispatch,
-	};
-
+	const contextValue = useMemo(() => {
+		return {
+			state: {
+				...state,
+				allStocks: state.data,
+			},
+			dispatch,
+		};
+	});
 	return (
 		<StockContext.Provider value={contextValue}>
 			{children}
 		</StockContext.Provider>
 	);
 };
-
-// export const useStockContext = () => {
-// 	return useContext(StockContext);
-// };
