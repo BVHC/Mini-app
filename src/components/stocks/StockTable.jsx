@@ -23,7 +23,7 @@ const parseG = (gStr) => {
 
 const createGColumn = (title, gKey, showVol = false) => ({
 	title,
-	render: (_, record) => {
+	render: (record) => {
 		const { price, vol } = parseG(record[gKey]);
 		const value = showVol ? vol : price;
 		return (

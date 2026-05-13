@@ -5,16 +5,16 @@ import StockPage from "../pages/StockPage";
 import AdminPage from "../pages/AdminPage";
 
 export default function AppRouter() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Navigate to="/tasks" replace />} />
-          <Route path="/tasks" element={<TaskPage />} />
-          <Route path="/stocks" element={<StockPage />} />
-          <Route path="/admin" element={<AdminPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route element={<MainLayout />}>
+					<Route path="/" element={<Navigate to="/tasks" replace />} />
+					<Route path="/tasks" element={<TaskPage />} />
+					<Route path="/stocks" element={<StockPage />} />
+					<Route path="/admin" element={<AdminPage />} />
+				</Route>
+			</Routes>
+		</BrowserRouter>
+	);
 }

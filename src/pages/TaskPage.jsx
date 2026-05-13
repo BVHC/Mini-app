@@ -7,7 +7,6 @@ import { useTaskContext } from "../hooks/useTaskContext";
 const TaskPage = () => {
 	const { state } = useTaskContext();
 	const listTasks = state.tasks;
-
 	const [statusFilter, setStatusFilter] = useState("all");
 	const [priorityFilter, setPriorityFilter] = useState("all");
 

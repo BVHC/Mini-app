@@ -1,11 +1,20 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FiClipboard, FiShield, FiHelpCircle, FiLogOut, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import {
+	FiClipboard,
+	FiShield,
+	FiChevronLeft,
+	FiChevronRight,
+} from "react-icons/fi";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 
 const navItems = [
 	{ path: "/tasks", label: "Tasks", icon: <FiClipboard /> },
-	{ path: "/stocks", label: "Stock Dashboard", icon: <MdOutlineSpaceDashboard /> },
+	{
+		path: "/stocks",
+		label: "Stock Dashboard",
+		icon: <MdOutlineSpaceDashboard />,
+	},
 	{ path: "/admin", label: "Admin Panel", icon: <FiShield /> },
 ];
 
@@ -21,14 +30,24 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
 			`}
 		>
 			{/* Logo & Toggle */}
-			<div className={`px-6 py-5 border-b border-slate-100 flex items-center ${isCollapsed ? "justify-center px-0" : "justify-between"}`}>
-				{!isCollapsed && <h1 className="text-2xl font-bold text-indigo-600 truncate transition-all">MiniApp</h1>}
-				<button 
-					onClick={toggleSidebar} 
+			<div
+				className={`px-6 py-5 border-b border-slate-100 flex items-center ${isCollapsed ? "justify-center px-0" : "justify-between"}`}
+			>
+				{!isCollapsed && (
+					<h1 className="text-2xl font-bold text-indigo-600 truncate transition-all">
+						MiniApp
+					</h1>
+				)}
+				<button
+					onClick={toggleSidebar}
 					className="p-1.5 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
 					title={isCollapsed ? "Mở rộng Sidebar" : "Thu gọn Sidebar"}
 				>
-					{isCollapsed ? <FiChevronRight className="w-6 h-6" /> : <FiChevronLeft className="w-6 h-6" />}
+					{isCollapsed ? (
+						<FiChevronRight className="w-6 h-6" />
+					) : (
+						<FiChevronLeft className="w-6 h-6" />
+					)}
 				</button>
 			</div>
 
@@ -51,11 +70,14 @@ const SideBar = ({ isCollapsed, toggleSidebar }) => {
 						title={isCollapsed ? item.label : ""}
 					>
 						<span className="text-[20px] min-w-[20px]">{item.icon}</span>
-						{!isCollapsed && <span className="whitespace-nowrap truncate transition-all">{item.label}</span>}
+						{!isCollapsed && (
+							<span className="whitespace-nowrap truncate transition-all">
+								{item.label}
+							</span>
+						)}
 					</NavLink>
 				))}
 			</nav>
-
 		</aside>
 	);
 };

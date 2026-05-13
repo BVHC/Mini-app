@@ -9,13 +9,21 @@ import { useStockFilter } from "../hooks/useStockFilter";
 const StockPage = () => {
 	const { state } = useStockContext();
 	const { allStocks } = state;
-
-	const {filteredStocks, searchText, setSearchText, filterType, setFilterType, filterSector, setFilterSector} = useStockFilter(allStocks)
-
+	const {
+		filteredStocks,
+		searchText,
+		setSearchText,
+		filterType,
+		setFilterType,
+		filterSector,
+		setFilterSector,
+	} = useStockFilter(allStocks);
 	const [selectedSymbol, setSelectedSymbol] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const filteredSymbols = useMemo(() => filteredStocks.map(s => s.stock_code), [filteredStocks])
+	const filteredSymbols = useMemo(
+		() => filteredStocks.map((s) => s.stock_code),
+		[filteredStocks],
+	);
 	const { data: stockPrices, loading } = useFetchStocks(filteredSymbols);
 
 	const handleRowClick = (symbol) => {
@@ -38,7 +46,11 @@ const StockPage = () => {
 			<div className="max-w-[1500px] mx-auto w-full flex flex-col h-[calc(100vh-120px)]">
 				<div className="flex gap-6 flex-1 min-h-0">
 					<div className="flex-[3.5] min-w-0 flex flex-col h-full">
-						<StockTable data={stockPrices} loading={loading} onRowClick={handleRowClick} />
+						<StockTable
+							data={stockPrices}
+							loading={loading}
+							onRowClick={handleRowClick}
+						/>
 					</div>
 				</div>
 			</div>

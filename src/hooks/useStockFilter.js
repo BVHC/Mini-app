@@ -1,16 +1,29 @@
 import React, { useMemo, useState } from "react";
 
+const removeAccent = (str = "") =>
+	str
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.replace(/đ/g, "d")
+		.replace(/Đ/g, "D");
+
+const normalizeSearch = (str = "") => {
+	return removeAccent(str).toLowerCase().trim();
+};
+
 export const useStockFilter = (allStocks) => {
 	const [searchText, setSearchText] = useState("");
 	const [filterType, setFilterType] = useState("ALL");
 	const [filterSector, setFilterSector] = useState("ALL");
 
 	const filteredStocks = useMemo(() => {
+		const keyword = normalizeSearch(searchText);
+
 		return allStocks.filter((stock) => {
 			const matchSearch =
-        searchText === "" ||
+				searchText === "" ||
 				stock.stock_code.toLowerCase().includes(searchText.toLowerCase()) ||
-				stock.name_vn.toLowerCase().includes(searchText.toLowerCase());
+				normalizeSearch(stock.name_vn).includes(keyword);
 
 			const matchType = filterType === "ALL" || stock.stock_type === filterType;
 
@@ -21,5 +34,13 @@ export const useStockFilter = (allStocks) => {
 		});
 	}, [allStocks, searchText, filterType, filterSector]);
 
-  return {filteredStocks, searchText, setSearchText, filterType, setFilterType, filterSector, setFilterSector}
+	return {
+		filteredStocks,
+		searchText,
+		setSearchText,
+		filterType,
+		setFilterType,
+		filterSector,
+		setFilterSector,
+	};
 };
