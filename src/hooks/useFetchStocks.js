@@ -13,7 +13,6 @@ export const useFetchStocks = (symbols) => {
 
 	useEffect(() => {
 		if (!symbols || symbols.length === 0) {
-			setData([]);
 			return;
 		}
 
@@ -62,5 +61,11 @@ export const useFetchStocks = (symbols) => {
 		};
 	}, [symbols]);
 
-	return { data, loading, error };
+	const isSymbolsEmpty = !symbols || symbols.length === 0;
+
+	return {
+		data: isSymbolsEmpty ? [] : data,
+		loading: isSymbolsEmpty ? false : loading,
+		error: isSymbolsEmpty ? null : error,
+	};
 };

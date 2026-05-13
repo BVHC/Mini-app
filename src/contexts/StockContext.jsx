@@ -1,4 +1,5 @@
-import React, { createContext, useReducer, useEffect, useMemo } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useReducer, useEffect, useMemo } from "react";
 import { stockReducer, initState } from "./stockReducer";
 
 export const StockContext = createContext();
