@@ -1,9 +1,4 @@
 import React, { useState } from "react";
-import {
-	FcHighPriority,
-	FcLowPriority,
-	FcMediumPriority,
-} from "react-icons/fc";
 import { useTaskContext } from "../../hooks/useTaskContext";
 
 const TaskForm = () => {
@@ -12,6 +7,23 @@ const TaskForm = () => {
 	const [priority, setPriority] = useState("medium");
 	const [deadline, setDeadline] = useState("");
 	const [errors, setErrors] = useState({});
+
+	const validate = () => {
+		const err = {};
+		if (!title.trim()) {
+			err.title = "Vui lòng nhập tên task!";
+		}
+
+		if (deadline) {
+			const today = new Date().toISOString().split("T")[0]; 
+			if (deadline < today) {
+				err.deadline = "Deadline không được là ngày trong quá khứ!";
+			}
+		}
+		setErrors(err);
+
+		return Object.keys(err).length === 0;
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -34,23 +46,6 @@ const TaskForm = () => {
 		setDeadline("");
 	};
 
-	const validate = () => {
-		const err = {};
-		if (!title.trim()) {
-			err.title = "Vui lòng nhập tên task!";
-		}
-
-		if (deadline) {
-			const today = new Date().toISOString().split("T")[0]; // "2026-05-10"
-			if (deadline < today) {
-				err.deadline = "Deadline không được là ngày trong quá khứ!";
-			}
-		}
-		setErrors(err);
-		// Trả về true nếu không có lỗi
-		return Object.keys(err).length === 0;
-	};
-
 	return (
 		<form
 			onSubmit={handleSubmit}
@@ -67,7 +62,6 @@ const TaskForm = () => {
 					value={title}
 					onChange={(e) => {
 						setTitle(e.target.value);
-						// Xóa lỗi khi user bắt đầu sửa
 						if (errors.title) {
 							setErrors((prev) => ({ ...prev, title: undefined }));
 						}

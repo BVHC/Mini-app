@@ -1,7 +1,6 @@
 import React from "react";
 import { Table } from "antd";
 
-
 const columns = [
 	{
 		title: "STT",
@@ -94,7 +93,6 @@ const columns = [
 ];
 
 const ListStock = ({data}) => {
-
 	return (
 		<div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-full overflow-hidden flex flex-col">
 			<div className="mb-4">

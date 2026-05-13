@@ -21,7 +21,20 @@ const parseG = (gStr) => {
 	return { price: parts[0] || 0, vol: parts[1] || 0 };
 };
 
-const StockTable = ({ data, onRowClick }) => {
+const createGColumn = (title, gKey, showVol = false) => ({
+	title,
+	render: (_, record) => {
+		const { price, vol } = parseG(record[gKey]);
+		const value = showVol ? vol : price;
+		return (
+			<span className={getColorClass(price, record.r, record.c, record.f)}>
+				{value || "-"}
+			</span>
+		);
+	},
+});
+
+const StockTable = ({ data, loading, onRowClick }) => {
 	const columns = [
 		{
 			title: "MÃ",
@@ -70,84 +83,12 @@ const StockTable = ({ data, onRowClick }) => {
 		{
 			title: "BÊN MUA",
 			children: [
-				{
-					title: "Giá 3",
-					render: (_, record) => {
-						const { price } = parseG(record.g3);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{price || "-"}
-							</span>
-						);
-					},
-				},
-				{
-					title: "KL 3",
-					render: (_, record) => {
-						const { price, vol } = parseG(record.g3);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{vol || "-"}
-							</span>
-						);
-					},
-				},
-				{
-					title: "Giá 2",
-					render: (_, record) => {
-						const { price } = parseG(record.g2);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{price || "-"}
-							</span>
-						);
-					},
-				},
-				{
-					title: "KL 2",
-					render: (_, record) => {
-						const { price, vol } = parseG(record.g2);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{vol || "-"}
-							</span>
-						);
-					},
-				},
-				{
-					title: "Giá 1",
-					render: (_, record) => {
-						const { price } = parseG(record.g1);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{price || "-"}
-							</span>
-						);
-					},
-				},
-				{
-					title: "KL 1",
-					render: (_, record) => {
-						const { price, vol } = parseG(record.g1);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{vol || "-"}
-							</span>
-						);
-					},
-				},
+				createGColumn("Giá 3", "g3"),
+				createGColumn("KL 3", "g3", true),
+				createGColumn("Giá 2", "g2"),
+				createGColumn("KL 2", "g2", true),
+				createGColumn("Giá 1", "g1"),
+				createGColumn("KL 1", "g1", true),
 			],
 		},
 		{
@@ -156,7 +97,7 @@ const StockTable = ({ data, onRowClick }) => {
 				{
 					title: "Giá",
 					dataIndex: "lastPrice",
-          className: "bg-slate-100",
+					className: "bg-slate-100",
 					sorter: (a, b) => a.lastPrice - b.lastPrice,
 					render: (text, record) => (
 						<span
@@ -169,7 +110,7 @@ const StockTable = ({ data, onRowClick }) => {
 				{
 					title: "KL",
 					dataIndex: "lastVolume",
-          className: "bg-slate-100",
+					className: "bg-slate-100",
 					sorter: (a, b) => a.lastVolume - b.lastVolume,
 					render: (text, record) => (
 						<span
@@ -187,7 +128,7 @@ const StockTable = ({ data, onRowClick }) => {
 				{
 					title: "+/-",
 					dataIndex: "ot",
-          className: "bg-slate-100",
+					className: "bg-slate-100",
 					sorter: (a, b) => a.ot - b.ot,
 					render: (text, record) => (
 						<span
@@ -207,97 +148,18 @@ const StockTable = ({ data, onRowClick }) => {
 		{
 			title: "BÊN BÁN",
 			children: [
-				{
-					title: "Giá 1",
-
-					render: (_, record) => {
-						const { price } = parseG(record.g4);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{price || "-"}
-							</span>
-						);
-					},
-				},
-				{
-					title: "KL 1",
-
-					render: (_, record) => {
-						const { price, vol } = parseG(record.g4);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{vol || "-"}
-							</span>
-						);
-					},
-				},
-				{
-					title: "Giá 2",
-
-					render: (_, record) => {
-						const { price } = parseG(record.g5);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{price || "-"}
-							</span>
-						);
-					},
-				},
-				{
-					title: "KL 2",
-
-					render: (_, record) => {
-						const { price, vol } = parseG(record.g5);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{vol || "-"}
-							</span>
-						);
-					},
-				},
-				{
-					title: "Giá 3",
-
-					render: (_, record) => {
-						const { price } = parseG(record.g6);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{price || "-"}
-							</span>
-						);
-					},
-				},
-				{
-					title: "KL 3",
-
-					render: (_, record) => {
-						const { price, vol } = parseG(record.g6);
-						return (
-							<span
-								className={getColorClass(price, record.r, record.c, record.f)}
-							>
-								{vol || "-"}
-							</span>
-						);
-					},
-				},
+				createGColumn("Giá 1", "g4"),
+				createGColumn("KL 1", "g4", true),
+				createGColumn("Giá 2", "g5"),
+				createGColumn("KL 2", "g5", true),
+				createGColumn("Giá 3", "g6"),
+				createGColumn("KL 3", "g6", true),
 			],
 		},
-
 		{
 			title: "CAO",
 			dataIndex: "highPrice",
-      className: "bg-slate-100",
+			className: "bg-slate-100",
 			sorter: (a, b) => a.highPrice - b.highPrice,
 			render: (text, record) => (
 				<span className={getColorClass(text, record.r, record.c, record.f)}>
@@ -308,7 +170,7 @@ const StockTable = ({ data, onRowClick }) => {
 		{
 			title: "THẤP",
 			dataIndex: "lowPrice",
-      className: "bg-slate-100",
+			className: "bg-slate-100",
 			sorter: (a, b) => a.lowPrice - b.lowPrice,
 			render: (text, record) => (
 				<span className={getColorClass(text, record.r, record.c, record.f)}>
@@ -325,6 +187,7 @@ const StockTable = ({ data, onRowClick }) => {
 				dataSource={data}
 				rowKey="sym"
 				pagination={false}
+				loading={loading}
 				scroll={{ x: "max-content", y: "calc(100vh - 250px)" }}
 				size="small"
 				bordered

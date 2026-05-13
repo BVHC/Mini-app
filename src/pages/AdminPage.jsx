@@ -1,33 +1,14 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ListStock from "../components/admin/ListStock";
-import FilterBar from "../components/admin/FilterBar";
+import FilterBar from "../components/shared/FilterBar";
 import { useStockContext } from "../hooks/useStockContext";
+import { useStockFilter } from "../hooks/useStockFilter";
 
 const AdminPage = () => {
 	const { state } = useStockContext();
 	const { allStocks } = state;
 
-	const [searchText, setSearchText] = useState("");
-	const [filterType, setFilterType] = useState("ALL");
-	const [filterSector, setFilterSector] = useState("ALL");
-
-	const filteredStocks = () => {
-		return allStocks.filter((stock) => {
-			//search
-			const matchSearch =
-				stock.stock_code.toLowerCase().includes(searchText.toLowerCase()) ||
-				stock.name_vn.toLowerCase().includes(searchText.toLowerCase());
-
-			const matchType = filterType === "ALL" || stock.stock_type === filterType;
-
-			const matchSector = filterSector === "ALL" || stock.sector_vn === filterSector;
-
-			return matchSearch && matchType && matchSector;
-		});
-	};
-
-	// console.log(filterType)
-	// console.log(filteredStocks()); 
+  const {filteredStocks, searchText, setSearchText, filterType, setFilterType, filterSector, setFilterSector} = useStockFilter(allStocks)
 
 	return (
 		<>
@@ -42,7 +23,7 @@ const AdminPage = () => {
 				/>
 			</div>
 
-			<ListStock data={filteredStocks()} />
+			<ListStock data={filteredStocks} />
 		</>
 	);
 };

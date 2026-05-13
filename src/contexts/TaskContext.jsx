@@ -14,9 +14,8 @@ const initState = () => {
 };
 
 export const TaskProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(taskReducer, initState());
+  const [state, dispatch] = useReducer(taskReducer, undefined, initState); 
   
-  // Lưu vào localStorage khi tasks thay đổi
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
   }, [state.tasks]);
