@@ -33,10 +33,8 @@ const columns = [
 		render: (type) => {
 			let colorClass = "bg-slate-100 text-slate-600";
 			if (type === "E") colorClass = "bg-[#dbeafe] text-[#1e40af]";
-			if (type === "S")
-				colorClass = "bg-[#fee2e2] text-[#991b1b]";
-      if (type === "W" )
-				colorClass = "bg-[#F8F9FF] text-[#4E4E4E]";
+			if (type === "S") colorClass = "bg-[#fee2e2] text-[#991b1b]";
+			if (type === "W") colorClass = "bg-[#F8F9FF] text-[#4E4E4E]";
 			return (
 				<span
 					className={`px-2 py-0.5 rounded text-[11px] font-bold ${colorClass}`}
@@ -92,7 +90,7 @@ const columns = [
 	},
 ];
 
-const ListStock = ({data}) => {
+const ListStock = ({ data }) => {
 	return (
 		<div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-full overflow-hidden flex flex-col">
 			<div className="mb-4">

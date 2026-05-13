@@ -15,7 +15,7 @@ const TaskForm = () => {
 		}
 
 		if (deadline) {
-			const today = new Date().toISOString().split("T")[0]; 
+			const today = new Date().toISOString().split("T")[0];
 			if (deadline < today) {
 				err.deadline = "Deadline không được là ngày trong quá khứ!";
 			}

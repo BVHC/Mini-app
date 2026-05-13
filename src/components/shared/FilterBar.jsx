@@ -24,7 +24,7 @@ const FilterBar = ({
 			),
 		].map((sector) => ({
 			value: sector,
-			label:  sector,
+			label: sector,
 		})),
 	];
 

@@ -7,8 +7,15 @@ import { useStockFilter } from "../hooks/useStockFilter";
 const AdminPage = () => {
 	const { state } = useStockContext();
 	const { allStocks } = state;
-
-  const {filteredStocks, searchText, setSearchText, filterType, setFilterType, filterSector, setFilterSector} = useStockFilter(allStocks)
+	const {
+		filteredStocks,
+		searchText,
+		setSearchText,
+		filterType,
+		setFilterType,
+		filterSector,
+		setFilterSector,
+	} = useStockFilter(allStocks);
 
 	return (
 		<>

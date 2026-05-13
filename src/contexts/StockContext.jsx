@@ -20,7 +20,6 @@ export const StockProvider = ({ children }) => {
 				dispatch({ type: "FETCH_ERROR", payload: err.message });
 			}
 		};
-
 		fetchAllStocks();
 	}, []);
 
@@ -32,8 +31,8 @@ export const StockProvider = ({ children }) => {
 			},
 			dispatch,
 		};
-	},[state]);
-  
+	}, [state]);
+
 	return (
 		<StockContext.Provider value={contextValue}>
 			{children}
