@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import TaskForm from "../components/tasks/TaskForm";
 import TaskCard from "../components/tasks/TaskCard";
 import TaskFilters from "../components/tasks/TaskFilters";
 import { useTaskContext } from "../hooks/useTaskContext";
 
 const TaskPage = () => {
-  const { state} = useTaskContext();
-  const listTasks = state.tasks;
-  
+	const { state } = useTaskContext();
+	const listTasks = state.tasks;
+
 	const [statusFilter, setStatusFilter] = useState("all");
 	const [priorityFilter, setPriorityFilter] = useState("all");
 
-	// Lọc task dựa vào: Status & Priority
-	const filteredTasks = listTasks.filter((task) => {
-		const matchStatus = statusFilter === "all" || task.status === statusFilter;
-		const matchPriority =	priorityFilter === "all" || task.priority === priorityFilter;
-		return matchStatus && matchPriority;
-	});
+	const filteredTasks = useMemo(() => {
+		return listTasks.filter((task) => {
+			const matchStatus =
+				statusFilter === "all" || task.status === statusFilter;
+			const matchPriority =
+				priorityFilter === "all" || task.priority === priorityFilter;
+			return matchStatus && matchPriority;
+		});
+	}, [listTasks, statusFilter, priorityFilter]);
 
 	return (
 		<div className="max-w-4xl mx-auto w-full">
@@ -50,12 +53,7 @@ const TaskPage = () => {
 							nhé!
 						</div>
 					) : (
-						filteredTasks.map((task) => (
-							<TaskCard
-								key={task.id}
-								task={task}
-							/>
-						))
+						filteredTasks.map((task) => <TaskCard key={task.id} task={task} />)
 					)}
 				</div>
 			</div>

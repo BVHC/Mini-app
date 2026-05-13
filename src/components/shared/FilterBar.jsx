@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Input, Select, Button } from "antd";
 import { FiSearch } from "react-icons/fi";
 import { LuFilter, LuFilterX } from "react-icons/lu";
-import { SearchOutlined } from "@ant-design/icons";
 import { useStockContext } from "../../hooks/useStockContext";
 
 const FilterBar = ({
@@ -73,7 +72,6 @@ const FilterBar = ({
 				value={filterType}
 				onChange={(value) => {
 					setFilterType(value);
-					// console.log(value);
 				}}
 			/>
 

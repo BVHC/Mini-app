@@ -32,7 +32,8 @@ export const StockProvider = ({ children }) => {
 			},
 			dispatch,
 		};
-	});
+	},[state]);
+  
 	return (
 		<StockContext.Provider value={contextValue}>
 			{children}
